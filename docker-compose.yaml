@@ -1,0 +1,11 @@
+version: '3.7'
+
+services:
+
+  db:
+    image: postgres:11.8@sha256:495de69cd2f7be2e6363c980e2ddf99fb1bef997a51d800c1f72be2b35648b3b
+    environment:
+      POSTGRES_PASSWORD: qwerty
+      POSTGRES_DB: scratch
+    ports:
+      - 5432:5432

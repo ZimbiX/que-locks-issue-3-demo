@@ -1,0 +1,14 @@
+#!/bin/bash
+
+set -Eeuo pipefail
+
+cd "$(dirname "$0")/.."
+
+export QUE_LOCKS=true
+
+exec bundle exec \
+  que \
+  --worker-count 10 \
+  --queue-name default \
+  --poll-interval 0.1 \
+  ./lib/bootstrap.rb

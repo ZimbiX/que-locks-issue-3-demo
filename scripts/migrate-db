@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+require_relative '../lib/bootstrap'
+
+Sequel.extension :migration
+
+Sequel::Migrator.run(DB, File.join(__dir__, '../migrations'))

@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+
+require_relative '../lib/bootstrap'
+
+puts 'Deleted %s jobs' % DB[:que_jobs].delete
+
+counters = DB[:counters]
+
+counters.delete
+
+puts 'Creating jobs...'
+
+%w[A B].each do |id|
+  counters.insert(id: id, n: 0)
+  100.times do
+    MyApp::Jobs::Increment.enqueue(id: id)
+  end
+end
+
+puts 'Waiting for all jobs to finish...'
+
+while DB[:que_jobs].count > 0
+  sleep 0.5
+end
+
+puts counters.order(:id).to_a
